@@ -37,9 +37,8 @@
                 <form action="" method="GET" class="d-flex">
                     <div class="form-group flex-grow-1 mr-2">
                         <input type="text" class="form-control w-100" id="searchInput" name="search"
-                            placeholder="Search by City">
+                            placeholder="Search by District, City, or Province">
                     </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
         </div>

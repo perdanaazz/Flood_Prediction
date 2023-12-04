@@ -4,6 +4,12 @@
     Curah Hujan
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
+
 @section('content')
     <div class="row mb-4">
         <div class="col-12">
@@ -20,7 +26,8 @@
                         <div class="mb-3">
                             <label for="nama_provinsi" class="form-label">Nama Provinsi <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_provinsi" name="nama_provinsi"
+                            <select id="selectProvinsi" placeholder="Pilih Provinsi"></select>
+                            <input hidden type="text" class="form-control" id="nama_provinsi" name="nama_provinsi"
                                 placeholder="Nama Provinsi" value="{{ old('nama_provinsi') }}">
                             @error('nama_provinsi')
                                 <div id="nama_provinsi_error" class="form-text text-danger">{{ $message }}</div>
@@ -31,6 +38,7 @@
                         <div class="mb-3">
                             <label for="nama_kota_kabupaten" class="form-label">Nama Kota / Kabupaten <span
                                     class="text-danger">*</span></label>
+                            <select id="selectCity" placeholder="Pilih Kota / Kabupaten"></select>
                             <input type="text" class="form-control" id="nama_kota_kabupaten" name="nama_kota_kabupaten"
                                 placeholder="Nama Kota / Kabupaten" value="{{ old('nama_kota_kabupaten') }}">
                             @error('nama_kota_kabupaten')
@@ -86,8 +94,8 @@
                     <div class="col-sm-12 col-md-4 col-lg-2">
                         <div class="mb-3">
                             <label for="feb" class="form-label">Februari <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="feb" name="feb" placeholder="Februari"
-                                value="{{ old('feb') }}">
+                            <input type="text" class="form-control" id="feb" name="feb"
+                                placeholder="Februari" value="{{ old('feb') }}">
                             @error('feb')
                                 <div id="feb_error" class="form-text text-danger">{{ $message }}</div>
                             @enderror
@@ -200,4 +208,57 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+        integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $.getJSON('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json', function(provinceData) {
+                selectize_province = $('#selectProvinsi').selectize({
+                    options: provinceData,
+                    labelField: 'name',
+                    valueField: 'id',
+                    searchField: 'name',
+                    create: false,
+                    placeholder: 'Pilih Provinsi',
+                    onChange: function(value) {
+                        var province = $('#selectProvinsi').text();
+                        $('#nama_provinsi').val(province);
+
+                        selectCity(value);
+                    }
+                });
+            });
+        });
+
+        function selectCity(value) {
+            $('#selectCity')
+                .empty()
+            var cityUrl =
+                "https://www.emsifa.com/api-wilayah-indonesia/api/regencies/" +
+                String(value) + ".json"
+            $.getJSON(cityUrl,
+                function(cityData) {
+                    console.log(cityData);
+                    var selectize_city = $('#selectCity').selectize({
+                        options: cityData,
+                        labelField: 'name',
+                        valueField: 'id',
+                        searchField: 'name',
+                        create: false,
+                        placeholder: 'Pilih Kota / Kabupaten',
+                        onChange: function(value) {
+                            console.log(value);
+                            var city = $('#selectCity')
+                                .text();
+                            $('#nama_kote_kabupaten').val(city);
+                        }
+                    });
+                }
+            );
+        }
+    </script>
 @endsection
