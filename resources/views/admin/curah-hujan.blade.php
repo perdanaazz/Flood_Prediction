@@ -9,6 +9,21 @@
 @endsection
 
 @section('content')
+    <div class="row mb-4 session-message">
+        <div class="col-12">
+            @if (Session::has('success'))
+                <div class="alert alert-success">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+            @if (Session::has('error'))
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
+        </div>
+    </div>
+
     <div class="row mb-4 d-flex justify-content-end">
         <div class="col-12 text-end">
             <a href="{{ route('curah-hujan.create') }}" class="btn btn-sm btn-primary">
@@ -176,6 +191,16 @@
                 paging: true,
                 scrollX: true
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.session-message').fadeOut('slow', function() {
+                    // Hapus elemen setelah selesai fading out
+                    $(this).remove();
+                });
+            }, 3000); // 3000 milidetik atau 3 detik
         });
     </script>
 @endsection
