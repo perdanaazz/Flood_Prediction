@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('curah_hujans', function (Blueprint $table) {
             $table->id();
 
-            $table->float('tahun');
+            $table->integer('tahun');
             $table->float('jan');
             $table->float('feb');
             $table->float('mar');
@@ -28,21 +28,21 @@ return new class extends Migration
             $table->float('nov');
             $table->float('des');
 
-            // $table->unsignedBigfloat('id_kota');
-            // $table->unsignedBigfloat('id_situasi');
+            $table->unsignedBigInteger('id_kota')->nullable();
+            $table->unsignedBigInteger('id_situasi')->nullable();
 
-            // $table
-            //     ->foreign('id_kota')
-            //     ->references('id')
-            //     ->on('kotas')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('restrict');
-            // $table
-            //     ->foreign('id_situasi')
-            //     ->references('id')
-            //     ->on('situasis')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('restrict');
+            $table
+                ->foreign('id_kota')
+                ->references('id')
+                ->on('kotas')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+            $table
+                ->foreign('id_situasi')
+                ->references('id')
+                ->on('situasis')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
 
             $table->timestamps();
         });

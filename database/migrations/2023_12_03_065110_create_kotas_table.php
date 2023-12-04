@@ -12,9 +12,11 @@ return new class extends Migration {
     {
         Schema::create('kotas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_kecamatan');
-            $table->string('nama_kota_kabupaten');
             $table->string('nama_provinsi');
+            $table->string('nama_kota_kabupaten');
+            $table->string('nama_kecamatan');
+            $table->string('longitude');
+            $table->string('latitude');
             $table->timestamps();
         });
     }

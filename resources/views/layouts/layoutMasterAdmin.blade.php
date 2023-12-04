@@ -73,11 +73,17 @@
                 </nav>
             </header>
 
-            <div class="container-fluid">
+            <div class="container-fluid mb-3">
 
                 @yield('content')
 
             </div>
+
+            <footer class="footer text-center mb-5">
+                <strong>
+                    Group 5 Data Science
+                </strong>
+            </footer>
         </div>
     </div>
     <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>

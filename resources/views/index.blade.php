@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Map Flood Prediction</title>
 
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
         integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
         crossorigin="" />
@@ -24,6 +26,12 @@
     </style>
 
     <div class="container">
+        <div class="row mt-5 mb-5">
+            <div class="col-12 text-end">
+                <a href="{{ route('login') }}" class="btn btn-sm btn-secondary">Login</a>
+            </div>
+        </div>
+        <hr>
         <div class="row mt-5 mb-5">
             <div class="col-12">
                 <form action="" method="GET" class="d-flex">
@@ -55,6 +63,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
         var map = L.map('mapid').setView([-8.0882, 111.9045], 13);
 
@@ -62,14 +72,35 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Koordinat untuk Alun-Alun Tulungagung
-        var markerCoords = [-8.0882, 111.9045];
+        var cityName = 'Tulungagung';
+        axios.get('{{ route('map-data') }}', {
+                params: {
+                    nama_kota: cityName
+                }
+            })
+            .then(function(response) {
+                var locations = response.data;
 
-        // Buat marker dan tambahkan ke peta
-        var marker = L.marker(markerCoords).addTo(map);
+                locations.forEach(function(location) {
+                    var label = location.kota.nama_kecamatan + ', ' + location.kota.nama_kota_kabupaten + ', ' +
+                        location.kota.nama_provinsi;
+                    var marker = L.marker([parseFloat(location.kota.latitude), parseFloat(location.kota
+                            .longitude)])
+                        .addTo(map);
+                    marker.bindPopup(label).openPopup();
 
-        // Anda dapat menambahkan popup jika diinginkan
-        marker.bindPopup('Alun-Alun Tulungagung, Jawa Timur').openPopup();
+                    var circle = L.circle([parseFloat(location.kota.latitude), parseFloat(location.kota
+                        .longitude)], {
+                        color: 'red',
+                        fillColor: 'red',
+                        fillOpacity: 0.25,
+                        radius: 2000
+                    }).addTo(map);
+                });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     </script>
 </body>
 

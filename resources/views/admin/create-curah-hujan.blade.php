@@ -18,12 +18,34 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="mb-3">
-                            <label for="nama_sungai" class="form-label">Nama Sungai <span
+                            <label for="nama_provinsi" class="form-label">Nama Provinsi <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_sungai" name="nama_sungai"
-                                placeholder="Nama Sungai" value="{{ old('nama_sungai') }}">
-                            @error('nama_sungai')
-                                <div id="nama_sungai_error" class="form-text text-danger">{{ $message }}</div>
+                            <input type="text" class="form-control" id="nama_provinsi" name="nama_provinsi"
+                                placeholder="Nama Provinsi" value="{{ old('nama_provinsi') }}">
+                            @error('nama_provinsi')
+                                <div id="nama_provinsi_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="mb-3">
+                            <label for="nama_kota_kabupaten" class="form-label">Nama Kota / Kabupaten <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nama_kota_kabupaten" name="nama_kota_kabupaten"
+                                placeholder="Nama Kota / Kabupaten" value="{{ old('nama_kota_kabupaten') }}">
+                            @error('nama_kota_kabupaten')
+                                <div id="nama_kota_kabupaten_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="mb-3">
+                            <label for="nama_kecamatan" class="form-label">Nama Kecamatan <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nama_kecamatan" name="nama_kecamatan"
+                                placeholder="Nama Kecamatan" value="{{ old('nama_kecamatan') }}">
+                            @error('nama_kecamatan')
+                                <div id="nama_kecamatan_error" class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
@@ -47,36 +69,127 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
+                </div>
+                <hr>
+                <div class="row">
+                    <h4 class="mb-3">Data Curah Hujan</h4>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
                         <div class="mb-3">
-                            <label for="nama_kecamatan" class="form-label">Nama Kecamatan <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_kecamatan" name="nama_kecamatan"
-                                placeholder="Nama Kecamatan" value="{{ old('nama_kecamatan') }}">
-                            @error('nama_kecamatan')
-                                <div id="nama_kecamatan_error" class="form-text text-danger">{{ $message }}</div>
+                            <label for="jan" class="form-label">Januari <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="jan" name="jan" placeholder="Januari"
+                                value="{{ old('jan') }}">
+                            @error('jan')
+                                <div id="jan_error" class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="col-sm-12 col-md-4 col-lg-2">
                         <div class="mb-3">
-                            <label for="nama_kota_kabupaten" class="form-label">Nama Kota / Kabupaten <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_kota_kabupaten" name="nama_kota_kabupaten"
-                                placeholder="Nama Kota / Kabupaten" value="{{ old('nama_kota_kabupaten') }}">
-                            @error('nama_kota_kabupaten')
-                                <div id="nama_kota_kabupaten_error" class="form-text text-danger">{{ $message }}</div>
+                            <label for="feb" class="form-label">Februari <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="feb" name="feb" placeholder="Februari"
+                                value="{{ old('feb') }}">
+                            @error('feb')
+                                <div id="feb_error" class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="col-sm-12 col-md-4 col-lg-2">
                         <div class="mb-3">
-                            <label for="nama_provinsi" class="form-label">Nama Provinsi <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_provinsi" name="nama_provinsi"
-                                placeholder="Nama Provinsi" value="{{ old('nama_provinsi') }}">
-                            @error('nama_provinsi')
-                                <div id="nama_provinsi_error" class="form-text text-danger">{{ $message }}</div>
+                            <label for="mar" class="form-label">Maret <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="mar" name="mar"
+                                placeholder="Maret" value="{{ old('mar') }}">
+                            @error('mar')
+                                <div id="mar_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="apr" class="form-label">April <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="apr" name="apr"
+                                placeholder="April" value="{{ old('apr') }}">
+                            @error('apr')
+                                <div id="apr_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="mei" class="form-label">Mei <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="mei" name="mei" placeholder="Mei"
+                                value="{{ old('mei') }}">
+                            @error('mei')
+                                <div id="mei_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="jun" class="form-label">Juni <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="jun" name="jun" placeholder="Juni"
+                                value="{{ old('jun') }}">
+                            @error('jun')
+                                <div id="jun_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="jul" class="form-label">Juli <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="jul" name="jul" placeholder="Juli"
+                                value="{{ old('jul') }}">
+                            @error('jul')
+                                <div id="jul_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="ags" class="form-label">Agustus <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ags" name="ags"
+                                placeholder="Agustus" value="{{ old('ags') }}">
+                            @error('ags')
+                                <div id="ags_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="sep" class="form-label">September <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="sep" name="sep"
+                                placeholder="September" value="{{ old('sep') }}">
+                            @error('sep')
+                                <div id="sep_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="okt" class="form-label">Oktober <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="okt" name="okt"
+                                placeholder="Oktober" value="{{ old('okt') }}">
+                            @error('okt')
+                                <div id="okt_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="nov" class="form-label">November <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nov" name="nov"
+                                placeholder="November" value="{{ old('nov') }}">
+                            @error('nov')
+                                <div id="nov_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
+                            <label for="des" class="form-label">Desember <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="des" name="des"
+                                placeholder="Desember" value="{{ old('des') }}">
+                            @error('des')
+                                <div id="des_error" class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>

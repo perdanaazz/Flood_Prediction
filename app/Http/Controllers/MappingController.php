@@ -4,31 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\CurahHujan;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 
-class CurahHujanController extends Controller
+class MappingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            $curah_hujan = CurahHujan::with('kota')->latest();
+        return view('index');
+    }
 
-            return DataTables::of($curah_hujan)
-                ->addIndexColumn()
-                ->addColumn('lokasi', function ($row) {
-                    return $row->kota->nama_provinsi . ' - ' . $row->kota->nama_kota_kabupaten;
-                })
-                ->addColumn('situasi', function ($row) {
-                    return $row->situasi->situasi;
-                })
-                ->rawColumns(['aksi'])
-                ->make(true);
-        }
+    public function getData()
+    {
+        $data = CurahHujan::with(['kota', 'situasi'])->get();
 
-        return view('admin.curah-hujan');
+        return response()->json($data);
     }
 
     /**
@@ -36,7 +27,7 @@ class CurahHujanController extends Controller
      */
     public function create()
     {
-        return view('admin.create-curah-hujan');
+        //
     }
 
     /**

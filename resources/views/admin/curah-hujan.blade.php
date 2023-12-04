@@ -72,8 +72,8 @@
                         className: 'text-center',
                     },
                     {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
+                        data: 'lokasi',
+                        name: 'lokasi',
                         orderable: false,
                         className: 'text-start',
                     },
@@ -162,8 +162,8 @@
                         className: 'text-center',
                     },
                     {
-                        data: 'jan',
-                        name: 'jan',
+                        data: 'situasi',
+                        name: 'situasi',
                         orderable: false,
                         searchable: false,
                         className: 'text-center',
