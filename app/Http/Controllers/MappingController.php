@@ -15,9 +15,20 @@ class MappingController extends Controller
         return view('index');
     }
 
-    public function getData()
+    public function getData(Request $request)
     {
         $data = CurahHujan::with(['kota', 'situasi'])->get();
+
+        if ($request) {
+            $data = CurahHujan::with(['kota', 'situasi'])
+                ->whereHas('kota', function ($query) use ($request) {
+                    $query
+                        ->where('nama_kecamatan', $request->search)
+                        ->orWhere('nama_kota_kabupaten', $request->search)
+                        ->orWhere('nama_provinsi');
+                })
+                ->get();
+        }
 
         return response()->json($data);
     }

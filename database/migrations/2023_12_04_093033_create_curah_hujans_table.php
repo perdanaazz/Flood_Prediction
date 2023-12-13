@@ -27,6 +27,7 @@ return new class extends Migration
             $table->float('okt');
             $table->float('nov');
             $table->float('des');
+            $table->float('annual')->nullable();
 
             $table->unsignedBigInteger('id_kota')->nullable();
             $table->unsignedBigInteger('id_situasi')->nullable();
@@ -36,13 +37,13 @@ return new class extends Migration
                 ->references('id')
                 ->on('kotas')
                 ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
             $table
                 ->foreign('id_situasi')
                 ->references('id')
                 ->on('situasis')
                 ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

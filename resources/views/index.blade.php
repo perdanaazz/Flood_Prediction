@@ -41,6 +41,9 @@
                     </div>
                 </form>
             </div>
+            <div class="col-12 text-end mt-2">
+                <button onclick="refreshMap()" class="btn btn-primary">Search</button>
+            </div>
         </div>
 
         <div class="row mb-5 leaflet">
@@ -52,6 +55,8 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
         integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
         crossorigin=""></script>
@@ -71,35 +76,49 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var cityName = 'Tulungagung';
-        axios.get('{{ route('map-data') }}', {
-                params: {
-                    nama_kota: cityName
-                }
-            })
-            .then(function(response) {
-                var locations = response.data;
+        function addMarkersAndCircles(locations) {
+            locations.forEach(function(location) {
+                var label = location.kota.nama_kecamatan + ', ' + location.kota.nama_kota_kabupaten + ', ' +
+                    location.kota.nama_provinsi;
+                var marker = L.marker([parseFloat(location.kota.latitude), parseFloat(location.kota.longitude)])
+                    .addTo(map);
+                marker.bindPopup(label).openPopup();
 
-                locations.forEach(function(location) {
-                    var label = location.kota.nama_kecamatan + ', ' + location.kota.nama_kota_kabupaten + ', ' +
-                        location.kota.nama_provinsi;
-                    var marker = L.marker([parseFloat(location.kota.latitude), parseFloat(location.kota
-                            .longitude)])
-                        .addTo(map);
-                    marker.bindPopup(label).openPopup();
-
-                    var circle = L.circle([parseFloat(location.kota.latitude), parseFloat(location.kota
-                        .longitude)], {
-                        color: 'red',
-                        fillColor: 'red',
-                        fillOpacity: 0.25,
-                        radius: 2000
-                    }).addTo(map);
-                });
-            })
-            .catch(function(error) {
-                console.log(error);
+                var circle = L.circle([parseFloat(location.kota.latitude), parseFloat(location.kota.longitude)], {
+                    color: 'red',
+                    fillColor: 'red',
+                    fillOpacity: 0.25,
+                    radius: 2000
+                }).addTo(map);
             });
+        }
+
+        function refreshMap() {
+            var input = $('#searchInput').val();
+
+            var postData = {
+                search: input,
+            };
+
+            // Clear existing markers and circles
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker || layer instanceof L.Circle) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            axios.post('{{ route('map-data') }}', postData)
+                .then(function(response) {
+                    var locations = response.data;
+                    addMarkersAndCircles(locations);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // Initial map load
+        refreshMap();
     </script>
 </body>
 

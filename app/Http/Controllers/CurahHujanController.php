@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CurahHujanRequest;
 use App\Models\CurahHujan;
 use App\Models\Kota;
 use GuzzleHttp\Client;
@@ -26,6 +27,7 @@ class CurahHujanController extends Controller
                 ->addColumn('situasi', function ($row) {
                     return $row->situasi->situasi;
                 })
+                ->addColumn('aksi', 'admin.dt-aksi')
                 ->rawColumns(['aksi'])
                 ->make(true);
         }
@@ -44,23 +46,25 @@ class CurahHujanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CurahHujanRequest $request)
     {
         // Hit Prediction API
         $url = 'http://127.0.0.1:5000/predict';
         $data = [
-            'feature1' => $request->jan,
-            'feature2' => $request->feb,
-            'feature3' => $request->mar,
-            'feature4' => $request->apr,
-            'feature5' => $request->mei,
-            'feature6' => $request->jun,
-            'feature7' => $request->jul,
-            'feature8' => $request->ags,
-            'feature9' => $request->sep,
-            'feature10' => $request->okt,
-            'feature11' => $request->nov,
-            'feature12' => $request->des,
+            'Tahun'     => $request->tahun,
+            'Januari'   => $request->jan,
+            'Februari'  => $request->feb,
+            'Maret'     => $request->mar,
+            'April'     => $request->apr,
+            'Mei'       => $request->mei,
+            'Juni'      => $request->jun,
+            'Juli'      => $request->jul,
+            'Agustus'   => $request->ags,
+            'September' => $request->sep,
+            'Oktober'   => $request->okt,
+            'November'  => $request->nov,
+            'Desember'  => $request->des,
+            // 'feature13' => $request->annual,
         ];
         $client = new Client();
 
@@ -72,29 +76,30 @@ class CurahHujanController extends Controller
 
         // Post to Database
         $kota = Kota::create([
-            'nama_provinsi' => $request->nama_provinsi,
+            'nama_provinsi'       => $request->nama_provinsi,
             'nama_kota_kabupaten' => $request->nama_kota_kabupaten,
-            'nama_kecamatan' => $request->nama_kecamatan,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
+            'nama_kecamatan'      => $request->nama_kecamatan,
+            'longitude'           => $request->longitude,
+            'latitude'            => $request->latitude,
         ]);
 
         $curah_hujan = CurahHujan::create([
-            'tahun' => 2023,
-            'id_kota' => $kota->id,
+            'tahun'      => $request->tahun,
+            'id_kota'    => $kota->id,
             'id_situasi' => $responseData == 'YES' ? 1 : 2,
-            'jan' => $request->jan,
-            'feb' => $request->feb,
-            'mar' => $request->mar,
-            'apr' => $request->apr,
-            'mei' => $request->mei,
-            'jun' => $request->jun,
-            'jul' => $request->jul,
-            'ags' => $request->ags,
-            'sep' => $request->sep,
-            'okt' => $request->okt,
-            'nov' => $request->nov,
-            'des' => $request->des,
+            'jan'        => $request->jan,
+            'feb'        => $request->feb,
+            'mar'        => $request->mar,
+            'apr'        => $request->apr,
+            'mei'        => $request->mei,
+            'jun'        => $request->jun,
+            'jul'        => $request->jul,
+            'ags'        => $request->ags,
+            'sep'        => $request->sep,
+            'okt'        => $request->okt,
+            'nov'        => $request->nov,
+            'des'        => $request->des,
+            // 'annual'     => $request->annual,
         ]);
 
         return redirect()
@@ -117,7 +122,12 @@ class CurahHujanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = CurahHujan::find($id);
+
+        return view('admin.edit-curah-hujan', [
+            'data' => $data,
+            'kota' => Kota::find($data->id_kota)
+        ]);
     }
 
     /**
@@ -125,7 +135,68 @@ class CurahHujanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $curah_hujan = CurahHujan::find($id);
+        $kota = Kota::find($curah_hujan->id_kota);
+
+        // Hit Prediction API
+        $url = 'http://127.0.0.1:5000/predict';
+        $data = [
+            'Tahun'     => $request->tahun,
+            'Januari'   => $request->jan,
+            'Februari'  => $request->feb,
+            'Maret'     => $request->mar,
+            'April'     => $request->apr,
+            'Mei'       => $request->mei,
+            'Juni'      => $request->jun,
+            'Juli'      => $request->jul,
+            'Agustus'   => $request->ags,
+            'September' => $request->sep,
+            'Oktober'   => $request->okt,
+            'November'  => $request->nov,
+            'Desember'  => $request->des,
+            // 'feature13' => $request->annual,
+        ];
+        $client = new Client();
+
+        $response = $client->post($url, [
+            'form_params' => $data,
+        ]);
+
+        $responseData = json_decode($response->getBody(), true);
+
+        // Post to Database
+        $kota->update([
+            'nama_provinsi'       => $request->nama_provinsi,
+            'nama_kota_kabupaten' => $request->nama_kota_kabupaten,
+            'nama_kecamatan'      => $request->nama_kecamatan,
+            'longitude'           => $request->longitude,
+            'latitude'            => $request->latitude,
+        ]);
+
+        $curah_hujan->update([
+            'tahun'      => $request->tahun,
+            'id_kota'    => $kota->id,
+            'id_situasi' => $responseData == 'Banjir' ? 1 : 2,
+            'jan'        => $request->jan,
+            'feb'        => $request->feb,
+            'mar'        => $request->mar,
+            'apr'        => $request->apr,
+            'mei'        => $request->mei,
+            'jun'        => $request->jun,
+            'jul'        => $request->jul,
+            'ags'        => $request->ags,
+            'sep'        => $request->sep,
+            'okt'        => $request->okt,
+            'nov'        => $request->nov,
+            'des'        => $request->des,
+            // 'annual'     => $request->annual,
+        ]);
+
+        return redirect()
+            ->route('curah-hujan.index')
+            ->with([
+                'success' => 'Berhasil memperbarui data',
+            ]);
     }
 
     /**
@@ -133,6 +204,15 @@ class CurahHujanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = CurahHujan::find($id);
+        $data_kota = Kota::find($data->id_kota);
+        $data->delete();
+        $data_kota->delete();
+
+        return redirect()
+            ->route('curah-hujan.index')
+            ->with([
+                'success' => 'Berhasil menghapus data',
+            ]);
     }
 }

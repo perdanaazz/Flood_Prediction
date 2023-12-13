@@ -83,9 +83,19 @@
                     <h4 class="mb-3">Data Curah Hujan</h4>
                     <div class="col-sm-12 col-md-4 col-lg-2">
                         <div class="mb-3">
+                            <label for="tahun" class="form-label">Tahun <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="tahun" name="tahun" placeholder="Tahun"
+                                value="{{ old('tahun') }}">
+                            @error('tahun')
+                                <div id="tahun_error" class="form-text text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-2">
+                        <div class="mb-3">
                             <label for="jan" class="form-label">Januari <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="jan" name="jan" placeholder="Januari"
-                                value="{{ old('jan') }}">
+                            <input type="text" class="form-control" id="jan" name="jan"
+                                placeholder="Januari" value="{{ old('jan') }}">
                             @error('jan')
                                 <div id="jan_error" class="form-text text-danger">{{ $message }}</div>
                             @enderror

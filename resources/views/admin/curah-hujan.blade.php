@@ -39,8 +39,10 @@
                     <tr class="align-items-center">
                         <th rowspan="2">No</th>
                         <th rowspan="2">Kabupaten / Kota</th>
+                        <th rowspan="2">Tahun</th>
                         <th colspan="12">Data Curah Hujan</th>
                         <th rowspan="2">Situasi</th>
+                        <th rowspan="2">Aksi</th>
                     </tr>
                     <tr>
                         <th>Jan</th>
@@ -89,6 +91,12 @@
                     {
                         data: 'lokasi',
                         name: 'lokasi',
+                        orderable: false,
+                        className: 'text-start',
+                    },
+                    {
+                        data: 'tahun',
+                        name: 'tahun',
                         orderable: false,
                         className: 'text-start',
                     },
@@ -179,6 +187,13 @@
                     {
                         data: 'situasi',
                         name: 'situasi',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center',
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
                         orderable: false,
                         searchable: false,
                         className: 'text-center',

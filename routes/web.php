@@ -17,7 +17,7 @@ Route::get('/login', function () {
 Route::resource('data-sungai', DataSungaiController::class);
 Route::resource('curah-hujan', CurahHujanController::class);
 Route::resource('map', MappingController::class);
-Route::get('get-data', [MappingController::class, 'getData'])->name('map-data');
+Route::post('get-data', [MappingController::class, 'getData'])->name('map-data');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

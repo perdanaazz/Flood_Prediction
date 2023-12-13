@@ -1,5 +1,6 @@
 {
     "window.zoomLevel": 1,
     "workbench.colorTheme": "Noctis Minimus",
-    "workbench.iconTheme": "vscode-icons"
+    "workbench.iconTheme": "vscode-icons",
+    "discord.enabled": false
 }
