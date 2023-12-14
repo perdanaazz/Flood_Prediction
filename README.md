@@ -15,6 +15,10 @@ After clone this project, open the terminal and run this command.
   php artisan migrate
   php artisan migrate:fresh --seed
   php artisan serve
+```
+
+Open other terminal
+```bash
   cd model
   python app.py
 ```
