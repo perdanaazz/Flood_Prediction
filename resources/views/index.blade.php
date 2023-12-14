@@ -33,11 +33,23 @@
         </div>
         <hr>
         <div class="row mt-5 mb-5">
-            <div class="col-12">
+            <div class="col-6">
                 <form action="" method="GET" class="d-flex">
                     <div class="form-group flex-grow-1 mr-2">
                         <input type="text" class="form-control w-100" id="searchInput" name="search"
                             placeholder="Search by District, City, or Province">
+                    </div>
+                </form>
+            </div>
+            <div class="col-6">
+                <form action="" method="GET" class="d-flex">
+                    <div class="form-group flex-grow-1 mr-2">
+                        <select class="form-control" name="tahun" id="tahun">
+                            <option value="">Select Year</option>
+                            @for ($i = date('Y') - 3; $i <= date('Y') + 3; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
                     </div>
                 </form>
             </div>
@@ -78,18 +90,37 @@
 
         function addMarkersAndCircles(locations) {
             locations.forEach(function(location) {
-                var label = location.kota.nama_kecamatan + ', ' + location.kota.nama_kota_kabupaten + ', ' +
+                var situasi;
+                if (location.id_situasi == 2) {
+                    situasi = "Tidak Banjir";
+                } else {
+                    situasi = "Banjir";
+                }
+
+                var label = situasi + ', ' + location.kota.nama_kecamatan + ', ' + location.kota.nama_kota_kabupaten + ', ' +
                     location.kota.nama_provinsi;
                 var marker = L.marker([parseFloat(location.kota.latitude), parseFloat(location.kota.longitude)])
                     .addTo(map);
                 marker.bindPopup(label).openPopup();
 
-                var circle = L.circle([parseFloat(location.kota.latitude), parseFloat(location.kota.longitude)], {
-                    color: 'red',
-                    fillColor: 'red',
-                    fillOpacity: 0.25,
-                    radius: 2000
-                }).addTo(map);
+                console.log(location);
+                if (location.id_situasi == 2) {
+                    var circle = L.circle([parseFloat(location.kota.latitude), parseFloat(location.kota
+                    .longitude)], {
+                        color: 'green',
+                        fillColor: 'green',
+                        fillOpacity: 0.25,
+                        radius: 2000
+                    }).addTo(map);
+                } else {
+                    var circle = L.circle([parseFloat(location.kota.latitude), parseFloat(location.kota
+                    .longitude)], {
+                        color: 'red',
+                        fillColor: 'red',
+                        fillOpacity: 0.25,
+                        radius: 2000
+                    }).addTo(map);
+                }
             });
         }
 

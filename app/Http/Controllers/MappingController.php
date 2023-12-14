@@ -17,10 +17,11 @@ class MappingController extends Controller
 
     public function getData(Request $request)
     {
-        $data = CurahHujan::with(['kota', 'situasi'])->get();
+        $data = CurahHujan::with(['kota'])->get();
 
-        if ($request) {
-            $data = CurahHujan::with(['kota', 'situasi'])
+        if ($request->search || $request->year) {
+            $data = CurahHujan::with(['kota'])
+                ->where('tahun', $request->year)
                 ->whereHas('kota', function ($query) use ($request) {
                     $query
                         ->where('nama_kecamatan', $request->search)
