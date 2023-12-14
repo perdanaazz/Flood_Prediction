@@ -17,9 +17,9 @@ def home():
 # Prediction route
 @app.route("/predict", methods=["POST"])
 def predict():
-    if request.method == "POST":
+    if request.method == "POST":    
         # Get input features from the form
-        feature1 = float(request.form["Tahun"])
+        # feature1 = float(request.form["Tahun"])
         feature2 = float(request.form["Januari"])
         feature3 = float(request.form["Februari"])
         feature4 = float(request.form["Maret"])
@@ -34,7 +34,7 @@ def predict():
         feature13 = float(request.form["Desember"])
 
         # Make a prediction using the loaded machine learning model
-        prediction = model.predict([[feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10, feature11, feature12, feature13]])[0]
+        prediction = model.predict([[feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10, feature11, feature12, feature13]])[0]
         return jsonify(prediction)
 
 if __name__ == "__main__":

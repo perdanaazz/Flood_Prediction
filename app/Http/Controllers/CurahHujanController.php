@@ -51,7 +51,7 @@ class CurahHujanController extends Controller
         // Hit Prediction API
         $url = 'http://127.0.0.1:5000/predict';
         $data = [
-            'Tahun'     => $request->tahun,
+            // 'Tahun'     => $request->tahun,
             'Januari'   => $request->jan ?? 0,
             'Februari'  => $request->feb ?? 0,
             'Maret'     => $request->mar ?? 0,

@@ -8,14 +8,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.neighbors import KNeighborsClassifier
 
-
 # Load your dataset and perform necessary preprocessing
 dataset = pd.read_csv("kerala.csv", sep=",")
 
+feature = ['YEAR', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC', 'FLOODS']
+selected_feature = dataset[feature]
+selected_feature.head()
+
 dataset['FLOODS'].replace(['YES','NO'],['Banjir','Tidak Banjir'],inplace=True)
 
-x = dataset.iloc[:,1 :14].values
-y = dataset.iloc[:, -1].values
+x = selected_feature.iloc[:,1 :13].values
+y = selected_feature.iloc[:, -1].values
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=0)
 
